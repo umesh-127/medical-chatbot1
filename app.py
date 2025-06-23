@@ -1,16 +1,32 @@
 import streamlit as st
 
+# Disease data dictionary
+disease_info = {
+    "malaria": "Symptoms include high fever, chills, sweating, headache, nausea, and vomiting.",
+    "dengue": "Symptoms include severe headache, joint and muscle pain, skin rash, and bleeding.",
+    "typhoid": "Symptoms include prolonged fever, abdominal pain, weakness, and constipation.",
+    "cold": "Common cold symptoms are sneezing, runny nose, sore throat, and mild fever.",
+    "covid": "COVID-19 symptoms include fever, cough, tiredness, and loss of taste or smell.",
+    "tuberculosis": "Symptoms include chronic cough, weight loss, night sweats, and blood in sputum.",
+    "cholera": "Cholera causes severe diarrhea and dehydration, often due to contaminated water.",
+    "asthma": "Symptoms include wheezing, breathlessness, chest tightness, and coughing.",
+    "diabetes": "Symptoms include increased thirst, frequent urination, hunger, fatigue, and blurred vision."
+}
+
+# Streamlit UI
 st.set_page_config(page_title="AI Medical Chatbot", page_icon="🩺")
-st.title("🧠 AI Medical Chatbot (Demo Version)")
-st.markdown("This is a demo version due to OpenAI API limits. Below are example conversations.")
+st.title("🧠 AI Medical Chatbot")
+st.markdown("Type the name of a disease to see its symptoms/effects 👇")
 
-sample_conversations = [
-    {"question": "What are the symptoms of malaria?", "answer": "Symptoms include high fever, chills, sweating, headache, nausea, and vomiting."},
-    {"question": "How can I treat a common cold?", "answer": "Rest, drink fluids, and take over-the-counter medication like paracetamol."},
-    {"question": "Is it safe to take paracetamol and ibuprofen together?", "answer": "Generally, yes in recommended doses. But always consult a doctor for medical advice."}
-]
+# Input box
+disease = st.text_input("Enter Disease Name:")
 
-for i, conv in enumerate(sample_conversations):
-    st.write(f"**👤 You:** {conv['question']}")
-    st.write(f"**🤖 Bot:** {conv['answer']}")
-    st.markdown("---")
+# Convert to lowercase for matching
+disease_lower = disease.lower().strip()
+
+# Response
+if disease:
+    if disease_lower in disease_info:
+        st.success(f"🩺 **{disease.title()}**: {disease_info[disease_lower]}")
+    else:
+        st.error("❌ Sorry, I don't have information about that disease. Try another one.")
