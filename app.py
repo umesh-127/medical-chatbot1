@@ -1,39 +1,16 @@
 import streamlit as st
-import openai
 
-# ✅ Create OpenAI client (NEW v1 syntax)
-client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-
-# UI Layout
 st.set_page_config(page_title="AI Medical Chatbot", page_icon="🩺")
-st.title("🧠 AI Medical Chatbot")
-st.markdown("Ask any health-related question below 👇")
+st.title("🧠 AI Medical Chatbot (Demo Version)")
+st.markdown("This is a demo version due to OpenAI API limits. Below are example conversations.")
 
-# Store messages
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+sample_conversations = [
+    {"question": "What are the symptoms of malaria?", "answer": "Symptoms include high fever, chills, sweating, headache, nausea, and vomiting."},
+    {"question": "How can I treat a common cold?", "answer": "Rest, drink fluids, and take over-the-counter medication like paracetamol."},
+    {"question": "Is it safe to take paracetamol and ibuprofen together?", "answer": "Generally, yes in recommended doses. But always consult a doctor for medical advice."}
+]
 
-# Input box
-user_input = st.text_input("You:")
-
-if user_input:
-    # Save user input
-    st.session_state.messages.append({"role": "user", "content": user_input})
-
-    # 🆕 OpenAI API v1 format
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful medical assistant who gives reliable health information but does not provide professional diagnosis."}
-        ] + st.session_state.messages
-    )
-
-    reply = response.choices[0].message.content
-    st.session_state.messages.append({"role": "assistant", "content": reply})
-
-# Display chat
-for msg in st.session_state.messages:
-    if msg["role"] == "user":
-        st.write("👤: " + msg["content"])
-    else:
-        st.write("🤖: " + msg["content"])
+for i, conv in enumerate(sample_conversations):
+    st.write(f"**👤 You:** {conv['question']}")
+    st.write(f"**🤖 Bot:** {conv['answer']}")
+    st.markdown("---")
